@@ -1,6 +1,7 @@
 import sqlite3 as db
 from datetime import datetime
 
+
 def init():
     '''
     Initialize a new database to store the expenditures.
@@ -68,14 +69,7 @@ def view(category=None):
         SELECT SUM(amount) FROM expenses
         '''
     cur.execute(sql)
-    #conn.commit()
     results = cur.fetchall()
     cur.execute(sumq)
     tot_amt = cur.fetchone()[0]
     return tot_amt, results
-
-#init()
-#log(120,"transport","Uber to the station.")
-print view('food')
-
-print view()
