@@ -1,4 +1,5 @@
 ## expense_tracker_api ##
+[![Travis CI](https://travis-ci.org/Arna-Maity/expense_tracker_api.svg?branch=master)](https://travis-ci.org/Arna-Maity/expense_tracker_api/builds/)
 
 This repo contains python APIs for the Expense Tracker Application
 
