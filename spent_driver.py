@@ -2,7 +2,7 @@ from docopt import docopt
 from spent import *
 from tabulate import tabulate
 
-usage='''
+usage = '''
 
     Expense Tracker CLI
     Usage:
@@ -27,10 +27,8 @@ if args['view']:
 if args['<amount>']:
     try:
         amount = float(args['<amount>'])
-        #print(amount)
-        log(amount,args['<category>'],args['<message>'])
+        # print(amount)
+        log(amount, args['<category>'], args['<message>'])
 
     except:
         print(usage)
-
-

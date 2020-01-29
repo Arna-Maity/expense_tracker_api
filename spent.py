@@ -2,26 +2,28 @@ import sqlite3 as db
 from datetime import datetime
 
 # Context Manager for managing DB connections.
+
+
 class dbConnectionManager():
-    def __init__(self, name): 
-        self.dbname = name  
+    def __init__(self, name):
+        self.dbname = name
         self.connection = None
         self.cur = None
-    
+
     # Creating the DB connection.
-    def __enter__(self): 
+    def __enter__(self):
         self.connection = db.connect(self.dbname)
         self.cur = self.connection.cursor()
         return self
 
-    def eval(self,query):
+    def eval(self, query):
         hand = manager.cur.execute(query)
         self.connection.commit()
         return hand
 
     # Closing the DB connection.
-    def __exit__(self, exc_type, exc_value, exc_traceback): 
-        self.connection.close() 
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.connection.close()
 
 
 def init():
@@ -41,6 +43,7 @@ def init():
         '''
         manager.eval(sql)
 
+
 def log(amount, category, message=""):
     '''
     Log the expenditure in the database
@@ -57,8 +60,9 @@ def log(amount, category, message=""):
             '{}',
             '{}'
         )
-        '''.format(amount,category,message,date)
+        '''.format(amount, category, message, date)
         manager.eval(sql)
+
 
 def view(category=None):
     '''
