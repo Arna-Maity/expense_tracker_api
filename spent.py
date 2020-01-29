@@ -67,7 +67,7 @@ def view(category=None):
     it returns only the info from that category. 
     '''
     
-    with dbConnectionManager("spent.db")
+    with dbConnectionManager("spent.db") as manager:
         date = str(datetime.now())
 
         if category:
