@@ -17,7 +17,7 @@ class dbConnectionManager():
     def eval(self,query):
         hand = manager.cur.execute(query)
         self.connection.commit()
-        return hand.fetchall()
+        return hand
 
     # Closing the DB connection.
     def __exit__(self, exc_type, exc_value, exc_traceback): 
@@ -30,17 +30,16 @@ def init():
     '''
     conn = db.connect("spent.db")
     cur = conn.cursor()
-    sql = '''
-    CREATE TABLE IF NOT EXISTS expenses(
-        amount NUMBER,
-        category STRING,
-        message STRING,
-        date STRING
-        )
-    '''
-
-    cur.execute(sql)
-    conn.commit()
+    with dbConnectionManager("spent.db") as manager:
+        sql = '''
+        CREATE TABLE IF NOT EXISTS expenses(
+            amount NUMBER,
+            category STRING,
+            message STRING,
+            date STRING
+            )
+        '''
+        manager.eval(sql)
 
 def log(amount, category, message=""):
     '''
@@ -49,20 +48,17 @@ def log(amount, category, message=""):
     category: String
     message(optional): String
     '''
-    conn = db.connect("spent.db")
-    cur = conn.cursor()
-    date = str(datetime.now())
-    sql = '''
-    INSERT INTO expenses VALUES(
-        {},
-        '{}',
-        '{}',
-        '{}'
-    )
-    '''.format(amount,category,message,date)
-
-    cur.execute(sql)
-    conn.commit()
+    with dbConnectionManager("spent.db") as manager:
+        date = str(datetime.now())
+        sql = '''
+        INSERT INTO expenses VALUES(
+            {},
+            '{}',
+            '{}',
+            '{}'
+        )
+        '''.format(amount,category,message,date)
+        manager.eval(sql)
 
 def view(category=None):
     '''
@@ -70,28 +66,26 @@ def view(category=None):
     and the total expense. If a category is specified,
     it returns only the info from that category. 
     '''
-    conn = db.connect("spent.db")
-    cur = conn.cursor()
-    date = str(datetime.now())
     
-    if category:
-        sql = '''
-        SELECT * FROM expenses WHERE category='{}'
-        '''.format(category)
+    with dbConnectionManager("spent.db")
+        date = str(datetime.now())
 
-        sumq = '''
-        SELECT SUM(amount) FROM expenses WHERE category='{}'
-        '''.format(category)
-    
-    else:
-        sql = '''
-        SELECT * FROM expenses
-        '''
-        sumq = '''
-        SELECT SUM(amount) FROM expenses
-        '''
-    cur.execute(sql)
-    results = cur.fetchall()
-    cur.execute(sumq)
-    tot_amt = cur.fetchone()[0]
+        if category:
+            sql = '''
+            SELECT * FROM expenses WHERE category='{}'
+            '''.format(category)
+
+            sumq = '''
+            SELECT SUM(amount) FROM expenses WHERE category='{}'
+            '''.format(category)
+
+        else:
+            sql = '''
+            SELECT * FROM expenses
+            '''
+            sumq = '''
+            SELECT SUM(amount) FROM expenses
+            '''
+        results = manager.eval(sql).fetchall()
+        tot_amt = manager.eval(sumq).fetchone()[0]
     return tot_amt, results
