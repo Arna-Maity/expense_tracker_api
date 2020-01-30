@@ -66,11 +66,11 @@ def log(amount, category, message=""):
 
 def view(category=None):
     '''
-    Returns a list of all expenditures incurred, 
+    Returns a list of all expenditures incurred,
     and the total expense. If a category is specified,
-    it returns only the info from that category. 
+    it returns only the info from that category.
     '''
-    
+
     with dbConnectionManager("spent.db") as manager:
         date = str(datetime.now())
 

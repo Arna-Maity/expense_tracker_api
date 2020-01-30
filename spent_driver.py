@@ -30,5 +30,5 @@ if args['<amount>']:
         # print(amount)
         log(amount, args['<category>'], args['<message>'])
 
-    except:
+    except BaseException:
         print(usage)
