@@ -52,7 +52,7 @@ pbr==5.4.4
 pluggy==0.13.1
 polib==1.1.0
 proselint==0.7.0
-py==1.8.1
+py==1.10.0
 pycodestyle==2.5.0
 pydocstyle==1.1.1
 pyflakes==1.4.0
