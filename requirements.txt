@@ -83,7 +83,7 @@ template-remover==0.1.9
 termcolor==1.1.0
 traitlets==4.3.3
 unidiff==0.5.5
-urllib3==1.25.8
+urllib3==1.26.5
 vulture==0.10
 wcwidth==0.1.8
 wrapt==1.11.2
